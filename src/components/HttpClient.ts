@@ -46,7 +46,12 @@ export class HttpClient {
       options = await this.interceptor(options);
     }
 
-    const fullUrl = this.baseURL + this.buildUrl(url, options.params);
+    const normalizedBaseUrl = this.baseURL.endsWith("/")
+      ? this.baseURL
+      : this.baseURL
+      ? `${this.baseURL}/`
+      : "";
+    const fullUrl = normalizedBaseUrl + this.buildUrl(url, options.params);
 
     const res = await fetch(fullUrl, {
       method,
@@ -90,9 +95,9 @@ export class HttpClient {
   }
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
 
-const axios = new HttpClient(baseUrl!, {
+const axios = new HttpClient("", {
   "Content-Type": "application/json",
   Accept: "application/json",
 });

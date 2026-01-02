@@ -34,13 +34,14 @@ const PlatformIcon = ({ platform }: { platform: string }) => {
 
 export function VideoResult({ data }: VideoResultProps) {
   return (
-    <Card className="w-full overflow-hidden border-0  mb-2 bg-white -900 rounded-2xl animate-in fade-in zoom-in-95 duration-500 pt-0">
+    <Card className="w-full overflow-hidden border-0  mb-2 bg-white dark:bg-slate-800 rounded-2xl animate-in fade-in zoom-in-95 duration-500 pt-0">
       <div className="relative group bg-black">
         <video
           className="w-full h-128 object-contain opacity-90 group-hover:opacity-100 transition-opacity"
           controls
           autoPlay
           muted
+          loop
           playsInline
         >
           {data.downloads.length > 0 &&
@@ -65,20 +66,20 @@ export function VideoResult({ data }: VideoResultProps) {
       </div>
       <div className="p-6 flex flex-col justify-between">
         <div>
-          <div className="flex mb-2 items-center text-sm text-slate-500 -400">
+          <div className="flex mb-2 items-center text-sm text-slate-500 dark:text-slate-400">
             <User className="w-3 h-3 mr-1" />
             <span className="truncate max-w-[150px]">
               @{data.author.username}
             </span>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-900  line-clamp-2 mb-4 leading-snug">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white line-clamp-2 mb-4 leading-snug">
             {data.title}
           </h3>
         </div>
 
         <div className="space-y-4">
-          <div className="bg-slate-50 -800/50 rounded-xl p-4">
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
               Download Options
             </h4>
@@ -86,16 +87,16 @@ export function VideoResult({ data }: VideoResultProps) {
               {data.downloads.map((quality, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-2 rounded-lg hover:bg-white -slate-800 transition-colors border border-transparent hover:border-slate-200 -slate-700"
+                  className="flex items-center justify-between p-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
                 >
                   <div className="flex items-center gap-3">
                     <Badge
                       variant="outline"
-                      className="bg-blue-50 -900/20 text-blue-600 -400 border-blue-200 -800"
+                      className="bg-blue-50 dark:bg-blue-800/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
                     >
                       {quality.format.toUpperCase()}
                     </Badge>
-                    <span className="font-medium text-sm text-slate-700 -200">
+                    <span className="font-medium text-sm text-slate-700 dark:text-slate-400">
                       {quality.resolution}
                     </span>
                   </div>

@@ -36,13 +36,11 @@ export function Downloader({
     setResult(null);
 
     try {
-      const endpoint =
-        platformName === "All"
-          ? "api/v1/extract"
-          : `api/v1/extract/${platformName.toLowerCase()}`;
+      const endpoint = "api/v1/extract";
 
       const response = await axios.post<ApiResponse>(endpoint, {
         url,
+        platform: platformName.toLowerCase(),
       });
 
       if (response.data.success && response.data.data) {
