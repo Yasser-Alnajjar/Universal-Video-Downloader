@@ -1,5 +1,3 @@
-"use client";
-
 import { Downloader } from "@/components/downloader";
 import { PlatformSelector } from "@/components/platform-selector";
 
