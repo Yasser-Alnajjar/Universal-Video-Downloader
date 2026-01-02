@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, Smartphone } from "lucide-react";
 import {
   FaTwitter,
@@ -25,8 +24,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UniDownLoader",
-  description: "Universal Video Downloader",
+  title: "UniDownLoader - Universal Video Downloader",
+  description:
+    "Download videos from YouTube, Twitter, Instagram, Facebook, and Pinterest for free. High quality MP4 downloads, fast and unlimited.",
+  keywords: [
+    "video downloader",
+    "youtube downloader",
+    "twitter downloader",
+    "instagram downloader",
+    "facebook downloader",
+    "pinterest downloader",
+    "download video mp4",
+  ],
+  authors: [{ name: "Yasser AlNajjar" }],
+  openGraph: {
+    title: "UniDownLoader - Universal Video Downloader",
+    description:
+      "Modern and fast video downloader for all your favorite platforms.",
+    type: "website",
+    url: "https://universal-video-downloader-theta.vercel.app",
+    siteName: "UniDownLoader",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UniDownLoader - Universal Video Downloader",
+    description: "Multi-platform video downloader. Fast, free, and easy.",
+  },
 };
 
 export default function RootLayout({
@@ -74,7 +97,11 @@ export default function RootLayout({
         >
           <nav className="border-b bg-white/80 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-              <Link href="/" className="flex items-center space-x-2">
+              <Link
+                href="/"
+                className="flex items-center space-x-2"
+                aria-label="UniDownLoader Home"
+              >
                 <div className="bg-primary p-1.5 rounded-full">
                   <Download className="h-5 w-5 text-white" strokeWidth={3} />
                 </div>
@@ -103,6 +130,7 @@ export default function RootLayout({
                     <Link
                       key={p.name}
                       href={p.path}
+                      aria-label={`Download from ${p.name}`}
                       className="cursor-pointer flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-900 transition-all hover:-translate-y-1 group cursor-default"
                     >
                       <p.icon
@@ -155,18 +183,18 @@ export default function RootLayout({
 
             {/* Footer */}
             <footer className="bg-white dark:bg-slate-950 border-t py-12 text-center text-slate-500 text-sm">
+              <p>© {new Date().getFullYear()} UniDownLoader.</p>
               <p>
-                © {new Date().getFullYear()} UniDownLoader. For educational
-                purposes only.
+                Created by{" "}
+                <a
+                  href="https://github.com/Yasser-Alnajjar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary underline underline-offset-4 transition-colors"
+                >
+                  Yasser AlNajjar
+                </a>
               </p>
-              <div className="mt-2 space-x-4">
-                <a href="#" className="hover:text-blue-500">
-                  Privacy Policy
-                </a>
-                <a href="#" className="hover:text-blue-500">
-                  Terms of Service
-                </a>
-              </div>
             </footer>
           </main>
         </ThemeProvider>

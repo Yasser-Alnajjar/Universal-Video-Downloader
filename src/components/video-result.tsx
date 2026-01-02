@@ -43,6 +43,7 @@ export function VideoResult({ data }: VideoResultProps) {
           muted
           loop
           playsInline
+          aria-label={`Video preview: ${data.title}`}
         >
           {data.downloads.length > 0 &&
             data.downloads.map((download, index) => (
