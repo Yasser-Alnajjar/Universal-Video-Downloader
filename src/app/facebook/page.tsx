@@ -2,7 +2,9 @@
 
 import { Downloader } from "@/components/downloader";
 import { PlatformSelector } from "@/components/platform-selector";
-
+export const metadata = {
+  title: "Facebook",
+};
 export default function FacebookPage() {
   return (
     <div className="flex-1 flex flex-col items-center relative overflow-hidden">

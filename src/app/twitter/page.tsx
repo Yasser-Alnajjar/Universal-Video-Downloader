@@ -1,10 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
 import { Downloader } from "@/components/downloader";
 import { PlatformSelector } from "@/components/platform-selector";
 
+export const metadata = {
+  title: "Twitter",
+};
 export default function TwitterPage() {
   return (
     <div className="flex-1 flex flex-col items-center relative overflow-hidden">
