@@ -83,9 +83,8 @@ export default function RootLayout({
       name: "Pinterest",
       icon: FaPinterest,
       color: "text-red-600",
-      path: "/pinterest",
+      path: "/",
     },
-    { name: "YouTube", icon: FaYoutube, color: "text-red-500", path: "/" },
   ];
   return (
     <html lang="en">
@@ -126,7 +125,7 @@ export default function RootLayout({
                 <h2 className="text-2xl font-bold mb-10 text-slate-800 dark:text-slate-200">
                   Supported Platforms
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {platforms.map((p) => (
                     <Link
                       key={p.name}

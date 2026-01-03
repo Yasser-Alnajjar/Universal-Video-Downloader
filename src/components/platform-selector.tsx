@@ -8,8 +8,7 @@ export function PlatformSelector() {
   const pathname = usePathname();
 
   const platforms = [
-    { name: "YouTube", path: "/", color: "text-primary" },
-    { name: "Pinterest", path: "/pinterest", color: "text-primary" },
+    { name: "Pinterest", path: "/", color: "text-primary" },
     { name: "Twitter", path: "/twitter", color: "text-blue-600" },
     { name: "Instagram", path: "/instagram", color: "text-red-600" },
     { name: "Facebook", path: "/facebook", color: "text-blue-600" },
