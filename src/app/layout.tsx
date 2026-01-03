@@ -120,7 +120,7 @@ export default function RootLayout({
               {children}
             </div>
             {/* Footer */}
-            <footer className="bg-white dark:bg-slate-950 border-t py-12 text-center text-slate-500 text-sm">
+            <footer className="bg-white dark:bg-slate-950 border-t py-8 text-center text-slate-500 text-sm">
               <p>© {new Date().getFullYear()} Veluxa.</p>
               <p>
                 Created by{" "}
