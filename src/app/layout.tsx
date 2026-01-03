@@ -119,68 +119,6 @@ export default function RootLayout({
             <div className="flex-1 w-full flex flex-col items-center pt-20 pb-16 px-4 relative overflow-hidden">
               {children}
             </div>
-            {/* Platforms Grid */}
-            <section className="bg-white dark:bg-slate-950 py-16 border-y border-slate-100 dark:border-slate-800/50">
-              <div className="max-w-6xl mx-auto px-4 text-center">
-                <h2 className="text-2xl font-bold mb-10 text-slate-800 dark:text-slate-200">
-                  Supported Platforms
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {platforms.map((p) => (
-                    <Link
-                      key={p.name}
-                      href={p.path}
-                      aria-label={`Download from ${p.name}`}
-                      className="cursor-pointer flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-900 transition-all hover:-translate-y-1 group cursor-default"
-                    >
-                      <p.icon
-                        className={`h-10 w-10 mb-3 ${p.color} transition-transform group-hover:scale-110`}
-                      />
-                      <span className="font-semibold text-slate-700 dark:text-slate-300 relative">
-                        {p.name}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* Features */}
-            <section className="py-20 bg-slate-50 dark:bg-slate-950 text-center">
-              <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-3 gap-12">
-                <div>
-                  <div className="bg-blue-100 dark:bg-blue-900/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400">
-                    <CheckCircle className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">High Quality</h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    We extract the best available resolution, up to 4K where
-                    supported.
-                  </p>
-                </div>
-                <div>
-                  <div className="bg-purple-100 dark:bg-purple-900/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-600 dark:text-purple-400">
-                    <Download className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Fast & Free</h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    No registration required. Unlimited downloads at lightning
-                    speed.
-                  </p>
-                </div>
-                <div>
-                  <div className="bg-indigo-100 dark:bg-indigo-900/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600 dark:text-indigo-400">
-                    <Smartphone className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Mobile Friendly</h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    Responsive design works perfectly on iPhone, Android, and
-                    tablets.
-                  </p>
-                </div>
-              </div>
-            </section>
-
             {/* Footer */}
             <footer className="bg-white dark:bg-slate-950 border-t py-12 text-center text-slate-500 text-sm">
               <p>© {new Date().getFullYear()} Veluxa.</p>
