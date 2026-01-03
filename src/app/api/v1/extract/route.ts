@@ -12,11 +12,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    console.log(url, platform);
-
     const data = await extractVideo(url, platform);
-
-    console.log(data);
 
     return NextResponse.json({
       success: true,
