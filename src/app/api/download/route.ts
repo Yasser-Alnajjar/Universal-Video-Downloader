@@ -9,11 +9,15 @@ export async function GET(req: Request) {
   const res = await fetch(url);
   const buffer = await res.arrayBuffer();
 
+  const filename = searchParams.get("filename") || "video.mp4";
+
   return new NextResponse(buffer, {
     headers: {
       "Content-Type":
         res.headers.get("content-type") ?? "application/octet-stream",
-      "Content-Disposition": `attachment; filename="video.mp4"`,
+      "Content-Disposition": `attachment; filename="${encodeURIComponent(
+        filename
+      )}"`,
     },
   });
 }

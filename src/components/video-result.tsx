@@ -109,6 +109,8 @@ export function VideoResult({ data }: VideoResultProps) {
                     <a
                       href={`/api/download?url=${encodeURIComponent(
                         quality.url
+                      )}&filename=${encodeURIComponent(
+                        `${data.title}.${quality.format}`
                       )}`}
                     >
                       <Download className="mr-2 h-3.5 w-3.5" />
