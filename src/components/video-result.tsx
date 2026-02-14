@@ -69,12 +69,10 @@ export function VideoResult({ data }: VideoResultProps) {
         <div>
           <div className="flex mb-2 items-center text-sm text-slate-500 dark:text-slate-400">
             <User className="w-3 h-3 mr-1" />
-            <span className="truncate max-w-[150px]">
-              @{data.author.username}
-            </span>
+            <span className="truncate max-w-37.5">@{data.author.username}</span>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white line-clamp-2 mb-4 leading-snug">
+          <h3 className="text-xl font-bold text-slate-900 truncate max-w-75 dark:text-white line-clamp-2 mb-4 leading-snug">
             {data.title}
           </h3>
         </div>
@@ -108,9 +106,9 @@ export function VideoResult({ data }: VideoResultProps) {
                   >
                     <a
                       href={`/api/download?url=${encodeURIComponent(
-                        quality.url
+                        quality.url,
                       )}&filename=${encodeURIComponent(
-                        `${data.title}.${quality.format}`
+                        `${data.title}.${quality.format}`,
                       )}`}
                     >
                       <Download className="mr-2 h-3.5 w-3.5" />

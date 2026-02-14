@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -47,14 +48,14 @@ export function Downloader({
         setResult(response.data.data);
       } else {
         setError(
-          response.data.error?.message || "Failed to extract video details."
+          response.data.error?.message || "Failed to extract video details.",
         );
       }
     } catch (err: any) {
       console.error(err);
       setError(
         err.response?.data?.message ||
-          "Something went wrong. Please check the URL and try again."
+          "Something went wrong. Please check the URL and try again.",
       );
     } finally {
       setLoading(false);
@@ -86,7 +87,7 @@ export function Downloader({
                   "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                   "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-                  "pl-10 h-14 text-lg bg-white transition-all"
+                  "pl-10 h-14 text-lg bg-white transition-all",
                 )}
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -116,7 +117,7 @@ export function Downloader({
       </Card>
 
       {/* Results Area */}
-      <div className="w-full max-w-2xl mt-8 z-10 min-h-[100px]">
+      <div className="w-full max-w-2xl mt-8 z-10 min-h-25">
         {error && (
           <Alert
             variant="destructive"
@@ -130,7 +131,7 @@ export function Downloader({
 
         {loading && !result && !error && (
           <div className="space-y-4 animate-pulse">
-            <Skeleton className="h-[350px] w-full rounded-2xl" />
+            <Skeleton className="h-87.5 w-full rounded-2xl" />
             <div className="space-y-2">
               <Skeleton className="h-4 w-[60%]" />
               <Skeleton className="h-4 w-[40%]" />
