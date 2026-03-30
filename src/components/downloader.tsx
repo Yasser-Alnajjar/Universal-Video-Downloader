@@ -103,11 +103,11 @@ export function Downloader({
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Extracting...
+                  {tc("extracting")}
                 </>
               ) : (
                 <>
-                  Download
+                  {tc("download")}
                   <Download className="ml-2 h-5 w-5" />
                 </>
               )}
@@ -124,7 +124,7 @@ export function Downloader({
             className="animate-in fade-in slide-in-from-top-2 border-red-200 bg-red-50 dark:bg-red-900/10 dark:text-red-200"
           >
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Extraction Error</AlertTitle>
+            <AlertTitle>{tc("extractionError")}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
