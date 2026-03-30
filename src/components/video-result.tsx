@@ -10,6 +10,7 @@ import {
   FaPinterest,
   FaYoutube,
 } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 interface VideoResultProps {
   data: VideoMetadata;
@@ -33,6 +34,8 @@ const PlatformIcon = ({ platform }: { platform: string }) => {
 };
 
 export function VideoResult({ data }: VideoResultProps) {
+  const t = useTranslations("common");
+
   return (
     <Card className="w-full overflow-hidden border-0  mb-2 bg-white dark:bg-slate-800 rounded-2xl animate-in fade-in zoom-in-95 duration-500 pt-0">
       <div className="relative group bg-black">
@@ -43,7 +46,7 @@ export function VideoResult({ data }: VideoResultProps) {
           muted
           loop
           playsInline
-          aria-label={`Video preview: ${data.title}`}
+          aria-label={t("videoPreview", { title: data.title })}
         >
           {data.downloads.length > 0 &&
             data.downloads.map((download, index) => (
@@ -80,7 +83,7 @@ export function VideoResult({ data }: VideoResultProps) {
         <div className="space-y-4">
           <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-              Download Options
+              {t("downloadOptions")}
             </h4>
             <div className="space-y-2">
               {data.downloads.map((quality, index) => (
@@ -112,7 +115,7 @@ export function VideoResult({ data }: VideoResultProps) {
                       )}`}
                     >
                       <Download className="mr-2 h-3.5 w-3.5" />
-                      Download
+                      {t("download")}
                     </a>
                   </Button>
                 </div>

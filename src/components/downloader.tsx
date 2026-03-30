@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -13,6 +12,7 @@ import { VideoMetadata, ApiResponse } from "@/types";
 import { Loader2, AlertCircle, Link, Download } from "lucide-react";
 import { axios } from "./HttpClient";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface DownloaderProps {
   platformName?: string;
@@ -27,6 +27,9 @@ export function Downloader({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<VideoMetadata | null>(null);
+
+  const tc = useTranslations("common");
+  const tp = useTranslations("platforms");
 
   const handleExtract = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,16 +50,11 @@ export function Downloader({
       if (response.data.success && response.data.data) {
         setResult(response.data.data);
       } else {
-        setError(
-          response.data.error?.message || "Failed to extract video details.",
-        );
+        setError(response.data.error?.message || tc("failedExtract"));
       }
     } catch (err: any) {
       console.error(err);
-      setError(
-        err.response?.data?.message ||
-          "Something went wrong. Please check the URL and try again.",
-      );
+      setError(err.response?.data?.message || tc("somethingWrong"));
     } finally {
       setLoading(false);
     }
@@ -64,8 +62,10 @@ export function Downloader({
 
   const defaultPlaceholder =
     platformName === "All"
-      ? "Paste URL (YouTube, Twitter, Instagram...)"
-      : `Paste ${platformName} URL...`;
+      ? tc("placeholder_all")
+      : tc("placeholder_platform", {
+          platform: tp(platformName.toLowerCase()),
+        });
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -87,7 +87,7 @@ export function Downloader({
                   "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                   "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-                  "pl-10 h-14 text-lg bg-white transition-all",
+                  "ps-10 h-14 text-lg bg-white transition-all",
                 )}
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}

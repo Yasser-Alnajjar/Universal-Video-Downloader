@@ -11,6 +11,7 @@
   "dependencies": {
     "@distube/ytdl-core": "^4.16.12",
     "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "axios": "^1.13.2",
     "cheerio": "^1.1.2",
     "class-variance-authority": "^0.7.1",
@@ -19,6 +20,7 @@
     "instagram-url-direct": "^2.0.7",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
+    "next-intl": "^4.8.3",
     "next-themes": "^0.4.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",

@@ -1,0 +1,55 @@
+{
+  "common": {
+    "veluxa": "Veluxa",
+    "download": "Download",
+    "extracting": "Extracting...",
+    "extractionError": "Extraction Error",
+    "failedExtract": "Failed to extract video details.",
+    "somethingWrong": "Something went wrong. Please check the URL and try again.",
+    "downloadOptions": "Download Options",
+    "videoPreview": "Video preview: {title}",
+    "copyright": "© {year} Veluxa.",
+    "createdBy": "Created by {author}",
+    "placeholder_all": "Paste URL (YouTube, Twitter, Instagram...)",
+    "placeholder_platform": "Paste {platform} URL...",
+    "extraction_error": "Extraction Error",
+    "failed_extract": "Failed to extract video",
+    "something_wrong": "Something went wrong"
+  },
+  "home": {
+    "title": "Download Pinterest Videos",
+    "description": "Save Pinterest videos and ideas. Supports simple links and shorts."
+  },
+  "facebook": {
+    "title": "Download Facebook Videos",
+    "description": "Save Facebook videos and reels in standard (SD) or high definition (HD)."
+  },
+  "twitter": {
+    "title": "Download Twitter / X Videos",
+    "description": "Save Twitter videos and GIFs instantly. No login required."
+  },
+  "instagram": {
+    "title": "Download Instagram Videos",
+    "description": "Save Instagram Reels and Videos effortlessly. High quality MP4 download."
+  },
+  "youtube": {
+    "title": "Download YouTube Videos",
+    "description": "Save YouTube videos and Shorts in high quality (MP4). Fast, free, and unlimited."
+  },
+  "downloader": {
+    "pasteUrl": "Paste URL (YouTube, Twitter, Instagram...)",
+    "pastePlatformUrl": "Paste {platform} URL..."
+  },
+  "metadata": {
+    "description": "Download videos from YouTube, Twitter, Instagram, Facebook, and Pinterest for free. High quality MP4 downloads, fast and unlimited.",
+    "ogDescription": "Modern and fast video downloader for all your favorite platforms.",
+    "twitterDescription": "Multi-platform video downloader. Fast, free, and easy."
+  },
+
+  "platforms": {
+    "pinterest": "Pinterest",
+    "twitter": "Twitter",
+    "instagram": "Instagram",
+    "facebook": "Facebook"
+  }
+}

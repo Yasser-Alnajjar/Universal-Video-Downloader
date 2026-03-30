@@ -3,15 +3,33 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 export function PlatformSelector() {
   const pathname = usePathname();
-
+  const t = useTranslations("platforms");
+  const locale = useLocale();
   const platforms = [
-    { name: "Pinterest", path: "/", color: "text-primary" },
-    { name: "Twitter", path: "/twitter", color: "text-blue-600" },
-    { name: "Instagram", path: "/instagram", color: "text-red-600" },
-    { name: "Facebook", path: "/facebook", color: "text-blue-600" },
+    {
+      name: t("pinterest"),
+      path: `/${locale}`,
+      color: "text-primary",
+    },
+    {
+      name: t("twitter"),
+      path: `/${locale}/twitter`,
+      color: "text-blue-600",
+    },
+    {
+      name: t("instagram"),
+      path: `/${locale}/instagram`,
+      color: "text-red-600",
+    },
+    {
+      name: t("facebook"),
+      path: `/${locale}/facebook`,
+      color: "text-blue-600",
+    },
   ];
 
   return (
@@ -20,13 +38,13 @@ export function PlatformSelector() {
         const isActive = pathname === platform.path;
         return (
           <Link
-            key={platform.name}
+            key={platform.path}
             href={platform.path}
             className={cn(
               "flex-1 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap text-center",
               isActive
                 ? `${platform.color} bg-white dark:bg-slate-800 shadow-sm`
-                : "text-slate-500"
+                : "text-slate-500",
             )}
           >
             {platform.name}

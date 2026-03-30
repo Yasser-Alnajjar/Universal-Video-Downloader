@@ -1,0 +1,54 @@
+{
+  "common": {
+    "veluxa": "Veluxa",
+    "download": "تحميل",
+    "extracting": "جاري الاستخراج...",
+    "extractionError": "خطأ في الاستخراج",
+    "failedExtract": "فشل في استخراج تفاصيل الفيديو.",
+    "somethingWrong": "حدث خطأ ما. يرجى التحقق من الرابط وإعادة المحاولة.",
+    "downloadOptions": "خيارات التحميل",
+    "videoPreview": "معاينة الفيديو: {title}",
+    "copyright": "© {year} Veluxa.",
+    "createdBy": "تم إنشاؤه بواسطة {author}",
+    "placeholder_all": "الصق الرابط (يوتيوب، تويتر، إنستغرام...)",
+    "placeholder_platform": "الصق رابط {platform}...",
+    "extraction_error": "خطأ في الاستخراج",
+    "failed_extract": "فشل استخراج الفيديو",
+    "something_wrong": "حدث خطأ ما"
+  },
+  "home": {
+    "title": "تحميل فيديوهات Pinterest",
+    "description": "احفظ فيديوهات Pinterest والأفكار. يدعم الروابط البسيطة والقصيرة."
+  },
+  "facebook": {
+    "title": "تحميل فيديوهات Facebook",
+    "description": "احفظ فيديوهات Facebook والريلس بجودة قياسية (SD) أو عالية الدقة (HD)."
+  },
+  "twitter": {
+    "title": "تحميل فيديوهات Twitter / X",
+    "description": "احفظ فيديوهات Twitter والصور المتحركة فوراً. لا يتطلب تسجيل دخول."
+  },
+  "instagram": {
+    "title": "تحميل فيديوهات Instagram",
+    "description": "احفظ ريلس Instagram والفيديوهات بسهولة. تحميل MP4 عالي الجودة."
+  },
+  "youtube": {
+    "title": "تحميل فيديوهات YouTube",
+    "description": "احفظ فيديوهات YouTube والشورتس بجودة عالية (MP4). سريع، مجاني، وغير محدود."
+  },
+  "downloader": {
+    "pasteUrl": "الصق الرابط (YouTube, Twitter, Instagram...)",
+    "pastePlatformUrl": "الصق رابط {platform}..."
+  },
+  "metadata": {
+    "description": "تحميل الفيديوهات من YouTube وTwitter وInstagram وFacebook وPinterest مجاناً. تحميلات MP4 عالية الجودة، سريعة وغير محدودة.",
+    "ogDescription": "أداة تحميل فيديوهات حديثة وسريعة لجميع المنصات المفضلة لديك.",
+    "twitterDescription": "أداة تحميل فيديوهات متعددة المنصات. سريعة، مجانية، وسهلة."
+  },
+  "platforms": {
+    "pinterest": "بينتريست",
+    "twitter": "تويتر",
+    "instagram": "إنستغرام",
+    "facebook": "فيسبوك"
+  }
+}
