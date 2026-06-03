@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 import { extractVideo } from "@/lib/extractors";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { url, platform } = body;
-
     if (!url) {
       return NextResponse.json(
         { success: false, error: { message: "URL is required" } },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const data = await extractVideo(url, platform);
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
           message: error.message || "An error occurred during extraction",
         },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -31,3 +31,13 @@ export const generateQueryString = (
 
   return queryString ? `?${queryString}` : "";
 };
+export const removeLocaleFromUrl = (url?: string) => {
+  if (!url) return "/";
+
+  const clean = url.trim();
+
+  // remove leading locale segment only
+  const normalized = clean.replace(/^\/(en|ar)(\/|$)/i, "/");
+
+  return normalized === "" ? "/" : normalized;
+};

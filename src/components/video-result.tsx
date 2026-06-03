@@ -33,6 +33,12 @@ const PlatformIcon = ({ platform }: { platform: string }) => {
   }
 };
 
+function getPreviewUrl(url: string, platform: string): string {
+  if (platform.toLowerCase() !== "youtube") return url;
+
+  return `/api/stream?url=${encodeURIComponent(url)}`;
+}
+
 export function VideoResult({ data }: VideoResultProps) {
   const t = useTranslations("common");
 
@@ -52,7 +58,7 @@ export function VideoResult({ data }: VideoResultProps) {
             data.downloads.map((download, index) => (
               <source
                 key={index}
-                src={download.url}
+                src={getPreviewUrl(download.url, data.platform)}
                 type={`video/${download.format}`}
               />
             ))}

@@ -10,13 +10,17 @@ export async function GET(req: Request) {
   const buffer = await res.arrayBuffer();
 
   const filename = searchParams.get("filename") || "video.mp4";
-
+  console.log({
+    status: res.status,
+    contentType: res.headers.get("content-type"),
+    contentLength: res.headers.get("content-length"),
+  });
   return new NextResponse(buffer, {
     headers: {
       "Content-Type":
         res.headers.get("content-type") ?? "application/octet-stream",
       "Content-Disposition": `attachment; filename="${encodeURIComponent(
-        filename
+        filename,
       )}"`,
     },
   });

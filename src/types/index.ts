@@ -1,7 +1,7 @@
 export interface VideoQuality {
   resolution: string;
   url: string;
-  format: 'mp4' | 'm3u8' | 'gif';
+  format: "mp4" | "webm" | "m3u8" | "gif" | "flv" | "3gp" | "ts";
   size?: number;
 }
 
@@ -12,6 +12,7 @@ export interface VideoMetadata {
   description?: string;
   thumbnailUrl: string;
   duration?: number;
+
   author: {
     id: string;
     username: string;

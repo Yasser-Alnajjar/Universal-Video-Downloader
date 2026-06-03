@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { VideoResult } from "@/components/video-result";
 import { VideoMetadata, ApiResponse } from "@/types";
 import { Loader2, AlertCircle, Link, Download } from "lucide-react";
-import { axios } from "./HttpClient";
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -40,17 +40,17 @@ export function Downloader({
     setResult(null);
 
     try {
-      const endpoint = "api/v1/extract";
+      const endpoint = "/api/extract";
 
       const response = await axios.post<ApiResponse>(endpoint, {
         url,
         platform: platformName.toLowerCase(),
       });
 
-      if (response.data.success && response.data.data) {
+      if (response?.data?.success && response?.data?.data) {
         setResult(response.data.data);
       } else {
-        setError(response.data.error?.message || tc("failedExtract"));
+        setError(response?.data?.error?.message || tc("failedExtract"));
       }
     } catch (err: any) {
       console.error(err);
