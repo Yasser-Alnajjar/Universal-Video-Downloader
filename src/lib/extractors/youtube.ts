@@ -7,11 +7,13 @@ const execFileAsync = promisify(execFile);
 
 const PLAYER_CLIENTS: NonNullable<ytdl.getInfoOptions["playerClients"]> = [
   "WEB",
-  "WEB_EMBEDDED",
-  "IOS",
   "ANDROID",
+  "IOS",
   "TV",
 ];
+
+const YT_DLP_COOKIES_PATH =
+  process.env.YT_DLP_COOKIES_PATH || "/app/cookies.txt";
 
 interface YtDlpFormat {
   url?: string;
@@ -170,21 +172,37 @@ async function extractWithYtDlp(url: string, videoId: string) {
       "--dump-single-json",
       "--no-playlist",
       "--no-warnings",
+      "--cookies",
+      YT_DLP_COOKIES_PATH,
+
+      // resilience layer
+      "--retries",
+      "5",
+      "--retry-sleep",
+      "1",
+      "--sleep-interval",
+      "1",
+
+      // improve bypass success rate
+      "--extractor-args",
+      "youtube:player_client=android",
+
       "--format",
       "best[ext=mp4]/best",
       url,
     ],
     {
       maxBuffer: 20 * 1024 * 1024,
-      timeout: 30_000,
+      timeout: 45_000,
     },
   );
 
   const info = JSON.parse(stdout) as YtDlpInfo;
+
   const downloads = getYtDlpDownloads(info.formats);
 
-  if (downloads.length === 0) {
-    throw new Error("yt-dlp did not return playable progressive formats");
+  if (!downloads.length) {
+    throw new Error("No playable formats from yt-dlp");
   }
 
   return {
@@ -205,37 +223,33 @@ async function extractWithYtDlp(url: string, videoId: string) {
 }
 
 async function extractWithYtdlCore(videoId: string): Promise<VideoMetadata> {
-  const info = await getYoutubeInfo(videoId);
+  const info = await ytdl.getInfo(videoId, {
+    playerClients: PLAYER_CLIENTS,
+  });
 
   const formats = info.formats ?? [];
-
   const downloads = getDownloads(formats);
 
-  const infoDetails = info.videoDetails;
-
-  const thumbnail =
-    infoDetails.thumbnails?.at(-1)?.url ||
-    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
-
-  if (downloads.length === 0) {
-    throw new Error(
-      "No playable YouTube formats found. The video may be restricted, private, live-only, or temporarily blocked by YouTube.",
-    );
+  if (!downloads.length) {
+    throw new Error("No playable formats (ytdl-core fallback failed)");
   }
+
+  const details = info.videoDetails;
 
   return {
     id: videoId,
     platform: "YouTube",
-    title: infoDetails.title ?? "Unknown",
-    description: infoDetails.description ?? "",
-    thumbnailUrl: thumbnail,
+    title: details.title ?? "Unknown",
+    description: details.description ?? "",
+    thumbnailUrl:
+      details.thumbnails?.at(-1)?.url ||
+      `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
     author: {
-      id: infoDetails.channelId ?? "",
-      username: infoDetails.author?.name ?? "",
-      name: infoDetails.author?.name ?? "",
+      id: details.channelId ?? "",
+      username: details.author?.name ?? "",
+      name: details.author?.name ?? "",
     },
-    duration: Number(infoDetails.lengthSeconds ?? 0),
-
+    duration: Number(details.lengthSeconds ?? 0),
     downloads,
   };
 }
@@ -245,8 +259,8 @@ export async function extractYoutube(url: string): Promise<VideoMetadata> {
 
   try {
     return await extractWithYtDlp(url, videoId);
-  } catch (error) {
-    console.warn("yt-dlp extraction failed, falling back to ytdl-core:", error);
+  } catch (err) {
+    console.warn("yt-dlp failed → fallback to ytdl-core", err);
   }
 
   return extractWithYtdlCore(videoId);
