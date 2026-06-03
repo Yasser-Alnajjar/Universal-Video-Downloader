@@ -1,45 +1,13 @@
-import { execFile } from "child_process";
-import { promisify } from "util";
 import ytdl from "@distube/ytdl-core";
 import { VideoMetadata, VideoQuality } from "@/types";
 
-const execFileAsync = promisify(execFile);
-
 const PLAYER_CLIENTS: NonNullable<ytdl.getInfoOptions["playerClients"]> = [
   "WEB",
-  "ANDROID",
+  "WEB_EMBEDDED",
   "IOS",
+  "ANDROID",
   "TV",
 ];
-
-const YT_DLP_COOKIES_PATH =
-  process.env.YT_DLP_COOKIES_PATH || "/app/cookies.txt";
-
-interface YtDlpFormat {
-  url?: string;
-  ext?: string;
-  protocol?: string;
-  vcodec?: string;
-  acodec?: string;
-  height?: number;
-  format_note?: string;
-  resolution?: string;
-  filesize?: number;
-  filesize_approx?: number;
-}
-
-interface YtDlpInfo {
-  id: string;
-  title?: string;
-  description?: string;
-  thumbnail?: string;
-  duration?: number;
-  uploader_id?: string;
-  uploader?: string;
-  channel_id?: string;
-  channel?: string;
-  formats?: YtDlpFormat[];
-}
 
 function extractVideoId(url: string): string {
   const match = url.match(
@@ -51,23 +19,21 @@ function extractVideoId(url: string): string {
   return match[1];
 }
 
-function isSupportedFormat(format: string): format is VideoQuality["format"] {
-  return (
-    format === "mp4" ||
-    format === "webm" ||
-    format === "m3u8" ||
-    format === "gif" ||
-    format === "flv" ||
-    format === "3gp" ||
-    format === "ts"
-  );
-}
-
 function getContainer(format: ytdl.videoFormat): VideoQuality["format"] {
   const mimeContainer = format.mimeType?.match(/(?:video|audio)\/([^;]+)/)?.[1];
   const container: string = format.container || mimeContainer || "mp4";
 
-  if (isSupportedFormat(container)) return container;
+  if (
+    container === "mp4" ||
+    container === "webm" ||
+    container === "m3u8" ||
+    container === "gif" ||
+    container === "flv" ||
+    container === "3gp" ||
+    container === "ts"
+  ) {
+    return container;
+  }
 
   return "mp4";
 }
@@ -134,134 +100,40 @@ function getDownloads(formats: ytdl.videoFormat[]): VideoQuality[] {
   );
 }
 
-function mapYtDlpFormat(format: YtDlpFormat): VideoQuality | null {
-  if (
-    !format.url ||
-    !format.ext ||
-    !isSupportedFormat(format.ext) ||
-    format.protocol !== "https" ||
-    format.vcodec === "none" ||
-    format.acodec === "none"
-  ) {
-    return null;
-  }
+export async function extractYoutube(url: string): Promise<VideoMetadata> {
+  const videoId = extractVideoId(url);
 
-  return {
-    resolution:
-      format.format_note ||
-      format.resolution ||
-      (format.height ? `${format.height}p` : "auto"),
-    url: format.url,
-    format: format.ext,
-    size: format.filesize ?? format.filesize_approx,
-  };
-}
-
-function getYtDlpDownloads(formats: YtDlpFormat[] = []): VideoQuality[] {
-  return sortDownloads(
-    formats
-      .map(mapYtDlpFormat)
-      .filter((format): format is VideoQuality => format !== null),
-  );
-}
-
-async function extractWithYtDlp(url: string, videoId: string) {
-  const { stdout } = await execFileAsync(
-    "yt-dlp",
-    [
-      "--dump-single-json",
-      "--no-playlist",
-      "--no-warnings",
-      "--cookies",
-      YT_DLP_COOKIES_PATH,
-
-      // resilience layer
-      "--retries",
-      "5",
-      "--retry-sleep",
-      "1",
-      "--sleep-interval",
-      "1",
-
-      // improve bypass success rate
-      "--extractor-args",
-      "youtube:player_client=android",
-
-      "--format",
-      "best[ext=mp4]/best",
-      url,
-    ],
-    {
-      maxBuffer: 20 * 1024 * 1024,
-      timeout: 45_000,
-    },
-  );
-
-  const info = JSON.parse(stdout) as YtDlpInfo;
-
-  const downloads = getYtDlpDownloads(info.formats);
-
-  if (!downloads.length) {
-    throw new Error("No playable formats from yt-dlp");
-  }
-
-  return {
-    id: info.id || videoId,
-    platform: "YouTube",
-    title: info.title ?? "Unknown",
-    description: info.description ?? "",
-    thumbnailUrl:
-      info.thumbnail || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-    author: {
-      id: info.channel_id ?? info.uploader_id ?? "",
-      username: info.uploader ?? info.channel ?? "",
-      name: info.uploader ?? info.channel ?? "",
-    },
-    duration: Number(info.duration ?? 0),
-    downloads,
-  } satisfies VideoMetadata;
-}
-
-async function extractWithYtdlCore(videoId: string): Promise<VideoMetadata> {
-  const info = await ytdl.getInfo(videoId, {
-    playerClients: PLAYER_CLIENTS,
-  });
+  const info = await getYoutubeInfo(videoId);
 
   const formats = info.formats ?? [];
+
   const downloads = getDownloads(formats);
 
-  if (!downloads.length) {
-    throw new Error("No playable formats (ytdl-core fallback failed)");
-  }
+  const infoDetails = info.videoDetails;
 
-  const details = info.videoDetails;
+  const thumbnail =
+    infoDetails.thumbnails?.at(-1)?.url ||
+    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+
+  if (downloads.length === 0) {
+    throw new Error(
+      "No playable YouTube formats found. The video may be restricted, private, live-only, or temporarily blocked by YouTube.",
+    );
+  }
 
   return {
     id: videoId,
     platform: "YouTube",
-    title: details.title ?? "Unknown",
-    description: details.description ?? "",
-    thumbnailUrl:
-      details.thumbnails?.at(-1)?.url ||
-      `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+    title: infoDetails.title ?? "Unknown",
+    description: infoDetails.description ?? "",
+    thumbnailUrl: thumbnail,
     author: {
-      id: details.channelId ?? "",
-      username: details.author?.name ?? "",
-      name: details.author?.name ?? "",
+      id: infoDetails.channelId ?? "",
+      username: infoDetails.author?.name ?? "",
+      name: infoDetails.author?.name ?? "",
     },
-    duration: Number(details.lengthSeconds ?? 0),
+    duration: Number(infoDetails.lengthSeconds ?? 0),
+
     downloads,
   };
-}
-
-export async function extractYoutube(url: string): Promise<VideoMetadata> {
-  const videoId = extractVideoId(url);
-
-  try {
-    return await extractWithYtDlp(url, videoId);
-  } catch (err) {
-    console.warn("yt-dlp failed → fallback to ytdl-core", err);
-  }
-
-  return extractWithYtdlCore(videoId);
 }
