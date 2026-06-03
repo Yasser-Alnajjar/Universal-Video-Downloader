@@ -30,11 +30,11 @@ export function PlatformSelector() {
       path: `/${locale}/facebook`,
       color: "text-blue-600",
     },
-    {
-      name: t("youtube"),
-      path: `/${locale}/youtube`,
-      color: "text-red-600",
-    },
+    // {
+    //   name: t("youtube"),
+    //   path: `/${locale}/youtube`,
+    //   color: "text-red-600",
+    // },
   ];
 
   return (
