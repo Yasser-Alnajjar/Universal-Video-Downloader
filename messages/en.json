@@ -14,11 +14,36 @@
     "placeholder_platform": "Paste {platform} URL...",
     "extraction_error": "Extraction Error",
     "failed_extract": "Failed to extract video",
-    "something_wrong": "Something went wrong"
+    "something_wrong": "Something went wrong",
+    "invalidUrl": "Please enter a valid URL.",
+    "unsupportedPlatform": "This URL isn't from a supported platform.",
+    "pasteFailed": "Couldn't read from clipboard. Please paste the URL manually.",
+    "paste": "Paste",
+    "clear": "Clear",
+    "urlInputLabel": "Media URL"
   },
-  "home": {
+  "pinterest": {
     "title": "Download Pinterest Videos",
     "description": "Save Pinterest videos and ideas. Supports simple links and shorts."
+  },
+  "home": {
+    "heroTitle": "Download and Convert Media in Seconds",
+    "heroSubtitle": "Veluxa is a simple media utility for Pinterest, Twitter/X, Instagram, Facebook, and YouTube — plus local video-to-audio conversion. No installs, no accounts.",
+    "heroPlaceholder": "Paste a media URL",
+    "heroCta": "Get Media",
+    "heroSecondaryCta": "Convert Video to Audio",
+    "platformsTitle": "Supported Platforms",
+    "platformsSubtitle": "Pick a platform or paste any supported link above.",
+    "videoToAudioTitle": "Just need the audio?",
+    "videoToAudioDescription": "Paste any supported video link and convert it straight to MP3, WAV, or M4A.",
+    "videoToAudioCta": "Convert Video to Audio",
+    "howItWorksTitle": "How It Works",
+    "step1Title": "Paste a link",
+    "step1Description": "Paste a video link from any supported platform.",
+    "step2Title": "Choose your format",
+    "step2Description": "Pick a quality or output format that fits your needs.",
+    "step3Title": "Download your result",
+    "step3Description": "Get your file instantly — fast, free, and unlimited."
   },
   "facebook": {
     "title": "Download Facebook Videos",
@@ -52,5 +77,65 @@
     "instagram": "Instagram",
     "facebook": "Facebook",
     "youtube": "YouTube"
+  },
+  "navigation": {
+    "home": "Home",
+    "platforms": "Platforms",
+    "tools": "Tools",
+    "videoToAudio": "Video to Audio",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "product": "Product",
+    "platforms": "Platforms",
+    "tools": "Tools",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "privacyPage": {
+    "metaTitle": "Privacy Policy",
+    "title": "Privacy Policy",
+    "disclaimer": "This is placeholder content and does not constitute legal advice. Replace it with a privacy policy reviewed by your organization before launch.",
+    "paragraph1": "Veluxa processes the media URLs you submit only to extract downloadable links from the originating platform, and does not permanently store the videos or images you download.",
+    "paragraph2": "The Video to Audio tool converts videos entirely in your browser — the video is fetched only to convert it and is never stored on our servers.",
+    "paragraph3": "We do not sell personal data. If we introduce analytics or third-party services in the future, this page will be updated to reflect that."
+  },
+  "termsPage": {
+    "metaTitle": "Terms of Service",
+    "title": "Terms of Service",
+    "disclaimer": "This is placeholder content and does not constitute legal advice. Replace it with terms reviewed by your organization before launch.",
+    "paragraph1": "Veluxa is provided as a convenience tool for downloading and converting media you have the right to access. You are responsible for ensuring your use complies with the copyright and terms of service of the originating platform.",
+    "paragraph2": "Do not use Veluxa to download or distribute content you do not own or do not have permission to use.",
+    "paragraph3": "The service is provided \"as is\", without warranty of any kind. Availability of any particular platform's extraction may change without notice if that platform changes its systems."
+  },
+  "contactPage": {
+    "metaTitle": "Contact",
+    "title": "Contact",
+    "intro": "Have a question, found a bug, or want to report a broken platform link?",
+    "reachOutAt": "Reach out at"
+  },
+  "videoToAudio": {
+    "title": "Video to Audio Converter",
+    "description": "Paste a video link from any supported platform and convert it to MP3, WAV, or M4A — converted right in your browser.",
+    "seoDescription": "Free online video to audio converter. Paste a Pinterest, Twitter/X, Instagram, Facebook, or YouTube video link and convert it to MP3, WAV, or M4A instantly.",
+    "urlPlaceholder": "Paste a video URL (YouTube, Twitter, Instagram...)",
+    "outputFormat": "Output format",
+    "convert": "Convert to Audio",
+    "reset": "Reset",
+    "download": "Download Audio",
+    "success": "Conversion complete",
+    "phaseExtracting": "Fetching video info...",
+    "phaseFetching": "Downloading video...",
+    "phaseConverting": "Converting to audio...",
+    "errors": {
+      "title": "Conversion Error",
+      "extractionFailed": "Couldn't find a video at that link. Please check the URL and try again.",
+      "videoFetchFailed": "Couldn't download the video for conversion. Please try again.",
+      "fileTooLarge": "Video is too large to convert. Maximum size is {max}.",
+      "conversionFailed": "Conversion failed. The video may be corrupted or in an unsupported format. Please try again."
+    }
   }
 }

@@ -1,10 +1,35 @@
+import type { Metadata } from "next";
 import { Downloader } from "@/components/downloader";
 import { PlatformSelector } from "@/components/platform-selector";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "YouTube",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "youtube" });
+
+  return {
+    title: { absolute: "YouTube Downloader | Veluxa" },
+    description: t("description"),
+    alternates: {
+      canonical: `/${locale}/youtube`,
+    },
+    openGraph: {
+      title: "YouTube Downloader | Veluxa",
+      description: t("description"),
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "YouTube Downloader | Veluxa",
+      description: t("description"),
+    },
+  };
+}
 
 export default function YouTubePage() {
   const t = useTranslations("youtube");
