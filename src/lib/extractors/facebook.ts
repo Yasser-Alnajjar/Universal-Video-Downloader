@@ -66,7 +66,11 @@ async function fetchViaGraphQL(videoId: string): Promise<FbVideoData | null> {
       fields:
         "title,description,thumbnails,video_full_res_url,video_preview_image_url,length,sd_src,hd_src,dash_manifest",
       id: videoId,
-      access_token: "6628568379|c1e620fa708a1d5696fb991c1bde5662", // public app token (no auth required for public videos)
+      // Public app token (no auth required for public videos). Overridable via
+      // env so it can be rotated without a code change.
+      access_token:
+        process.env.FACEBOOK_ACCESS_TOKEN ||
+        "6628568379|c1e620fa708a1d5696fb991c1bde5662",
     });
 
     const res = await fetch(

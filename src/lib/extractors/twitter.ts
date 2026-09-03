@@ -1,7 +1,10 @@
 import axios from "axios";
 import { VideoMetadata } from "@/types";
 
+// Public guest bearer token used by Twitter's own web client for logged-out
+// requests. Overridable via env so it can be rotated without a code change.
 const TWITTER_BEARER_TOKEN =
+  process.env.TWITTER_BEARER_TOKEN ||
   "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
 
 export async function extractTwitter(url: string): Promise<VideoMetadata> {

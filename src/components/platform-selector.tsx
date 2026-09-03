@@ -12,7 +12,7 @@ export function PlatformSelector() {
   const platforms = [
     {
       name: t("pinterest"),
-      path: `/${locale}`,
+      path: `/${locale}/pinterest`,
       color: "text-primary",
     },
     {
@@ -30,11 +30,11 @@ export function PlatformSelector() {
       path: `/${locale}/facebook`,
       color: "text-blue-600",
     },
-    // {
-    //   name: t("youtube"),
-    //   path: `/${locale}/youtube`,
-    //   color: "text-red-600",
-    // },
+    {
+      name: t("youtube"),
+      path: `/${locale}/youtube`,
+      color: "text-red-600",
+    },
   ];
 
   return (

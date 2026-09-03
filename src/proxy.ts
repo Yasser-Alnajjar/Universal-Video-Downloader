@@ -13,7 +13,9 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next|_next/static|_next/image|favicon.ico|apple-touch-icon.png|favicon.svg|images|icons|manifest.*\\..*).*)",
-  ],
+  // Excludes /api, all of /_next, and any path with a file extension (static
+  // assets — images, favicons, manifest.json, robots.txt, sitemap.xml, ...)
+  // from locale routing. The previous pattern only excluded a hardcoded list
+  // of filenames and silently 404'd everything else in /public.
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };

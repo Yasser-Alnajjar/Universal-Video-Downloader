@@ -4,6 +4,7 @@ import { extractFacebook } from "./facebook";
 import { extractInstagram } from "./instagram";
 import { extractTwitter } from "./twitter";
 import { extractPinterest } from "./pinterest";
+import { detectProvider, normalizeMediaUrl, ProviderId } from "@/lib/validation";
 
 export {
   extractYoutube,
@@ -13,43 +14,26 @@ export {
   extractPinterest,
 };
 
+// One-line registration point for future providers.
+const PROVIDER_REGISTRY: Record<ProviderId, (url: string) => Promise<VideoMetadata>> = {
+  youtube: extractYoutube,
+  facebook: extractFacebook,
+  instagram: extractInstagram,
+  twitter: extractTwitter,
+  pinterest: extractPinterest,
+};
+
 export async function extractVideo(
   url: string,
-  platform?: string
+  platform?: string,
 ): Promise<VideoMetadata> {
-  const normalizedUrl = url.toLowerCase();
+  const normalized = normalizeMediaUrl(url);
 
-  if (
-    platform === "YouTube" ||
-    normalizedUrl.includes("youtube.com") ||
-    normalizedUrl.includes("youtu.be")
-  ) {
-    return extractYoutube(url);
-  } else if (
-    platform === "Facebook" ||
-    normalizedUrl.includes("facebook.com") ||
-    normalizedUrl.includes("fb.watch")
-  ) {
-    return extractFacebook(url);
-  } else if (
-    platform === "Instagram" ||
-    normalizedUrl.includes("instagram.com") ||
-    normalizedUrl.includes("instagr.am")
-  ) {
-    return extractInstagram(url);
-  } else if (
-    platform === "Twitter" ||
-    normalizedUrl.includes("twitter.com") ||
-    normalizedUrl.includes("x.com")
-  ) {
-    return extractTwitter(url);
-  } else if (
-    platform === "Pinterest" ||
-    normalizedUrl.includes("pinterest.com") ||
-    normalizedUrl.includes("pin.it")
-  ) {
-    return extractPinterest(url);
-  }
+  const requested = platform?.toLowerCase() as ProviderId | undefined;
+  const detected = detectProvider(normalized);
+  const provider = detected ?? (requested && requested in PROVIDER_REGISTRY ? requested : null);
 
-  throw new Error("Unsupported platform or invalid URL");
+  if (!provider) throw new Error("UNSUPPORTED_PLATFORM");
+
+  return PROVIDER_REGISTRY[provider](normalized);
 }

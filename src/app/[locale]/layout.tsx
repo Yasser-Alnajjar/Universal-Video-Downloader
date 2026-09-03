@@ -1,14 +1,12 @@
 import { Cairo, Open_Sans } from "next/font/google";
-import { Download } from "lucide-react";
 
-import Link from "next/link";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ToggleTheme } from "@/components/ui/toggle-theme";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/navigation";
 import { getTranslations } from "next-intl/server";
-import { LanguageSwitcher } from "@/components/language-switcher";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const cairo = Cairo({
   variable: "--font-geist-sans",
@@ -60,36 +58,13 @@ export default async function LocaleLayout(props: Props) {
             enableSystem
             disableTransitionOnChange
           >
-            <nav className="border-b bg-white/80 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
-              <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-                <Link
-                  href="/"
-                  className="flex items-center space-x-2"
-                  aria-label={`${t("veluxa")} Home`}
-                >
-                  <div className="bg-primary p-1.5 rounded-full">
-                    <Download className="h-5 w-5 text-white" strokeWidth={3} />
-                  </div>
-                  <span className="font-bold text-lg tracking-tight">
-                    {t("veluxa")}
-                  </span>
-                </Link>
-                <div className="flex items-center space-x-4">
-                  <LanguageSwitcher />
-                  <ToggleTheme />
-                </div>
-              </div>
-            </nav>
+            <SiteHeader brandName={t("veluxa")} />
             <main className="bg-slate-50 dark:bg-slate-950 flex flex-col font-sans selection:bg-blue-100 dark:selection:bg-blue-900">
               {/* Hero Section */}
               <div className="flex-1 w-full flex flex-col items-center pt-20 pb-16 px-4 relative overflow-hidden">
                 {children}
               </div>
-              {/* Footer */}
-              <footer className="bg-white dark:bg-slate-950 border-t py-8 text-center text-slate-500 text-sm">
-                <p>{t("copyright", { year: new Date().getFullYear() })}</p>
-                <p>{t("createdBy", { author: "Yasser AlNajjar" })}</p>
-              </footer>
+              <SiteFooter />
             </main>
           </ThemeProvider>
         </NextIntlClientProvider>

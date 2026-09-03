@@ -9,19 +9,22 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { VideoResult } from "@/components/video-result";
 import { VideoMetadata, ApiResponse } from "@/types";
-import { Loader2, AlertCircle, Link, Download } from "lucide-react";
+import { Loader2, AlertCircle, Link, Download, Clipboard, X } from "lucide-react";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { validateMediaUrl } from "@/lib/validation";
 
 interface DownloaderProps {
   platformName?: string;
   placeholder?: string;
+  submitLabel?: string;
 }
 
 export function Downloader({
   platformName = "All",
   placeholder,
+  submitLabel,
 }: DownloaderProps) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,11 +36,25 @@ export function Downloader({
 
   const handleExtract = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url) return;
+    if (!url || loading) return;
 
     setLoading(true);
     setError(null);
     setResult(null);
+
+    // Client-side validation is a UX shortcut only — the server re-validates
+    // and normalizes the URL regardless (never trusted alone).
+    try {
+      validateMediaUrl(url);
+    } catch (validationError: any) {
+      setLoading(false);
+      setError(
+        validationError?.message === "UNSUPPORTED_PLATFORM"
+          ? tc("unsupportedPlatform")
+          : tc("invalidUrl"),
+      );
+      return;
+    }
 
     try {
       const endpoint = "/api/extract";
@@ -54,10 +71,28 @@ export function Downloader({
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || tc("somethingWrong"));
+      setError(err.response?.data?.error?.message || tc("somethingWrong"));
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        setUrl(text.trim());
+        setError(null);
+      }
+    } catch {
+      setError(tc("pasteFailed"));
+    }
+  };
+
+  const handleClear = () => {
+    setUrl("");
+    setError(null);
+    setResult(null);
   };
 
   const defaultPlaceholder =
@@ -82,23 +117,54 @@ export function Downloader({
               <Input
                 type="url"
                 placeholder={placeholder || defaultPlaceholder}
-                aria-label="Video URL"
+                aria-label={tc("urlInputLabel")}
+                aria-invalid={!!error}
                 className={cn(
                   "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                   "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-                  "ps-10 h-14 text-lg bg-white transition-all",
+                  "ps-10 pe-20 h-14 text-lg bg-white transition-all",
                 )}
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (error) setError(null);
+                }}
                 disabled={loading}
               />
+              <div className="absolute inset-y-0 end-2 flex items-center gap-1">
+                {url ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={tc("clear")}
+                    onClick={handleClear}
+                    disabled={loading}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={tc("paste")}
+                    onClick={handlePaste}
+                    disabled={loading}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <Clipboard className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </div>
             <Button
               type="submit"
               size="lg"
               className="cursor-pointer h-14 px-8 text-base bg-primary hover:bg-primary/80 text-white transition-all"
-              disabled={loading}
+              disabled={loading || !url}
             >
               {loading ? (
                 <>
@@ -107,7 +173,7 @@ export function Downloader({
                 </>
               ) : (
                 <>
-                  {tc("download")}
+                  {submitLabel || tc("download")}
                   <Download className="ml-2 h-5 w-5" />
                 </>
               )}
